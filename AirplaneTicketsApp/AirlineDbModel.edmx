@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AirlineDBsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AirlineRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="departuredt" Type="datetime" />
+          <Property Name="returndt" Type="datetime" />
+          <Property Name="departureFrom" Type="nvarchar" MaxLength="50" />
+          <Property Name="tripType" Type="nvarchar" MaxLength="50" />
+          <Property Name="passengerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Classtbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="classType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DestinationTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="destinationCityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="classId" Type="int" />
+        </EntityType>
+        <EntityType Name="PassengerTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="passengerType" Type="nvarchar" MaxLength="50" />
+          <Property Name="destinationId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_AirlineRecord_PassengerTbl">
+          <End Role="PassengerTbl" Type="Self.PassengerTbl" Multiplicity="0..1" />
+          <End Role="AirlineRecord" Type="Self.AirlineRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PassengerTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AirlineRecord">
+              <PropertyRef Name="passengerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DestinationTbl_Classtbl1">
+          <End Role="Classtbl" Type="Self.Classtbl" Multiplicity="0..1" />
+          <End Role="DestinationTbl" Type="Self.DestinationTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classtbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DestinationTbl">
+              <PropertyRef Name="classId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PassengerTbl_DestinationTbl">
+          <End Role="DestinationTbl" Type="Self.DestinationTbl" Multiplicity="0..1" />
+          <End Role="PassengerTbl" Type="Self.PassengerTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PassengerTbl">
+              <PropertyRef Name="destinationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AirlineDBsModelStoreContainer">
+          <EntitySet Name="AirlineRecord" EntityType="Self.AirlineRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Classtbl" EntityType="Self.Classtbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DestinationTbl" EntityType="Self.DestinationTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PassengerTbl" EntityType="Self.PassengerTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AirlineRecord_PassengerTbl" Association="Self.FK_AirlineRecord_PassengerTbl">
+            <End Role="PassengerTbl" EntitySet="PassengerTbl" />
+            <End Role="AirlineRecord" EntitySet="AirlineRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DestinationTbl_Classtbl1" Association="Self.FK_DestinationTbl_Classtbl1">
+            <End Role="Classtbl" EntitySet="Classtbl" />
+            <End Role="DestinationTbl" EntitySet="DestinationTbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PassengerTbl_DestinationTbl" Association="Self.FK_PassengerTbl_DestinationTbl">
+            <End Role="DestinationTbl" EntitySet="DestinationTbl" />
+            <End Role="PassengerTbl" EntitySet="PassengerTbl" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AirlineDBsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AirlineRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departuredt" Type="DateTime" Precision="3" />
+          <Property Name="returndt" Type="DateTime" Precision="3" />
+          <Property Name="departureFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tripType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passengerId" Type="Int32" />
+          <NavigationProperty Name="PassengerTbl" Relationship="Self.FK_AirlineRecord_PassengerTbl" FromRole="AirlineRecord" ToRole="PassengerTbl" />
+        </EntityType>
+        <EntityType Name="Classtbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="classType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DestinationTbls" Relationship="Self.FK_DestinationTbl_Classtbl1" FromRole="Classtbl" ToRole="DestinationTbl" />
+        </EntityType>
+        <EntityType Name="DestinationTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="destinationCityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="classId" Type="Int32" />
+          <NavigationProperty Name="Classtbl" Relationship="Self.FK_DestinationTbl_Classtbl1" FromRole="DestinationTbl" ToRole="Classtbl" />
+          <NavigationProperty Name="PassengerTbls" Relationship="Self.FK_PassengerTbl_DestinationTbl" FromRole="DestinationTbl" ToRole="PassengerTbl" />
+        </EntityType>
+        <EntityType Name="PassengerTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="passengerType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="destinationId" Type="Int32" />
+          <NavigationProperty Name="AirlineRecords" Relationship="Self.FK_AirlineRecord_PassengerTbl" FromRole="PassengerTbl" ToRole="AirlineRecord" />
+          <NavigationProperty Name="DestinationTbl" Relationship="Self.FK_PassengerTbl_DestinationTbl" FromRole="PassengerTbl" ToRole="DestinationTbl" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_AirlineRecord_PassengerTbl">
+          <End Role="PassengerTbl" Type="Self.PassengerTbl" Multiplicity="0..1" />
+          <End Role="AirlineRecord" Type="Self.AirlineRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PassengerTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AirlineRecord">
+              <PropertyRef Name="passengerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DestinationTbl_Classtbl1">
+          <End Role="Classtbl" Type="Self.Classtbl" Multiplicity="0..1" />
+          <End Role="DestinationTbl" Type="Self.DestinationTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classtbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DestinationTbl">
+              <PropertyRef Name="classId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PassengerTbl_DestinationTbl">
+          <End Role="DestinationTbl" Type="Self.DestinationTbl" Multiplicity="0..1" />
+          <End Role="PassengerTbl" Type="Self.PassengerTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PassengerTbl">
+              <PropertyRef Name="destinationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AirlineDBsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AirlineRecords" EntityType="Self.AirlineRecord" />
+          <EntitySet Name="Classtbls" EntityType="Self.Classtbl" />
+          <EntitySet Name="DestinationTbls" EntityType="Self.DestinationTbl" />
+          <EntitySet Name="PassengerTbls" EntityType="Self.PassengerTbl" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_AirlineRecord_PassengerTbl" Association="Self.FK_AirlineRecord_PassengerTbl">
+            <End Role="PassengerTbl" EntitySet="PassengerTbls" />
+            <End Role="AirlineRecord" EntitySet="AirlineRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DestinationTbl_Classtbl1" Association="Self.FK_DestinationTbl_Classtbl1">
+            <End Role="Classtbl" EntitySet="Classtbls" />
+            <End Role="DestinationTbl" EntitySet="DestinationTbls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PassengerTbl_DestinationTbl" Association="Self.FK_PassengerTbl_DestinationTbl">
+            <End Role="DestinationTbl" EntitySet="DestinationTbls" />
+            <End Role="PassengerTbl" EntitySet="PassengerTbls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AirlineDBsModelStoreContainer" CdmEntityContainer="AirlineDBsEntities1">
+          <EntitySetMapping Name="AirlineRecords">
+            <EntityTypeMapping TypeName="AirlineDBsModel.AirlineRecord">
+              <MappingFragment StoreEntitySet="AirlineRecord">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="departuredt" ColumnName="departuredt" />
+                <ScalarProperty Name="returndt" ColumnName="returndt" />
+                <ScalarProperty Name="departureFrom" ColumnName="departureFrom" />
+                <ScalarProperty Name="tripType" ColumnName="tripType" />
+                <ScalarProperty Name="passengerId" ColumnName="passengerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classtbls">
+            <EntityTypeMapping TypeName="AirlineDBsModel.Classtbl">
+              <MappingFragment StoreEntitySet="Classtbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="classType" ColumnName="classType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DestinationTbls">
+            <EntityTypeMapping TypeName="AirlineDBsModel.DestinationTbl">
+              <MappingFragment StoreEntitySet="DestinationTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="destinationCityName" ColumnName="destinationCityName" />
+                <ScalarProperty Name="classId" ColumnName="classId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PassengerTbls">
+            <EntityTypeMapping TypeName="AirlineDBsModel.PassengerTbl">
+              <MappingFragment StoreEntitySet="PassengerTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="passengerType" ColumnName="passengerType" />
+                <ScalarProperty Name="destinationId" ColumnName="destinationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AirlineDBsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
